@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="64a6f2a8-4287-4b0d-a905-bae9c70af59d" >
+		<http:listener-connection host="localhost" port="8080" />
+	</http:listener-config>
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="cecbb061-fa31-47d5-8079-a3ef85f00b4a" >
+		<email:smtp-connection host="smtp.gmail.com" port="587" user="vanilkumar950@gmail.com" password="9502504929123" >
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<flow name="gmailFlow" doc:id="c9ea0bc9-e0f2-45bf-9dc8-8ef0b5991afd" >
+		<http:listener doc:name="Listener" doc:id="054911b9-fb76-404c-93df-4d631a1d858a" config-ref="HTTP_Listener_config" path="gmail"/>
+		<email:send doc:name="Send" doc:id="4e24d518-45eb-459c-a029-b1ee4bcc50ad" config-ref="Email_SMTP" fromAddress="anilkumarvanapalli950@gmail.com" subject="smtp software solution you are select Tcs company">
+			<email:to-addresses >
+				<email:to-address value="v.anilkumar0123@gmail.com" />
+				<email:to-address value="ak.narendra950@gmail.com" />
+			</email:to-addresses>
+			<email:cc-addresses >
+				<email:cc-address value="anilkumarvanapalli950@gmail.com" />
+			</email:cc-addresses>
+		</email:send>
+		<logger level="INFO" doc:name="Logger" doc:id="51f3109a-584b-4607-a30c-9f4873d3da26" message="#[payload]"/>
+	</flow>
+</mule>
